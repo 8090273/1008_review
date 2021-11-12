@@ -70,6 +70,7 @@ public class NewRestStyle {
     public player requestBodyTest02(player player02)
     {
         System.out.println(player02);
+        System.out.println("热修复分支第二次无法修改");
         System.out.println("master主线改回去了");
         return player02;
 
