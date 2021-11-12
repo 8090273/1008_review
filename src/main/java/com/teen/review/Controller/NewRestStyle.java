@@ -70,7 +70,8 @@ public class NewRestStyle {
     public player requestBodyTest02(player player02)
     {
         System.out.println(player02);
-        System.out.println("热修复分支第二次修改");
+        System.out.println("热修复分支第二次修改---pass");
+        System.out.println("热修复分支第三次修改");
         return player02;
 
     }
