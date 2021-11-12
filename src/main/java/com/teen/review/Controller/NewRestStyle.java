@@ -71,6 +71,7 @@ public class NewRestStyle {
     {
         System.out.println(player02);
         System.out.println("这行不重要，不用管我");
+        System.out.println("第三个版本了嗷");
         return player02;
 
     }
