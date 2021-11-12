@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teen.review.Mapper.UserMapper">
+    <select id="getUserById" parameterType="int" resultType="com.teen.review.Bean.tUser">
+        select * from `t_user` where id = #{id}
+    </select>
+
+    <select id="getUserBookById" parameterType="int" resultMap="UserBook">
+        select u.id,username,name from `t_user` u ,`t_book` b where u.username = b.user and u.id = #{id}
+    </select>
+<!--    不加别名会造成查询结果为null，加上别名就好了-->
+<!--            我tm懂了！！！mlgb错在u.username! 数据库返回的结果 字段username不会被解析为u.username,因为不需要和name区分！！！-->
+    <resultMap id="UserBook" type="com.teen.review.Bean.tUser">
+<!--        虽然查询语句中要写u.id，但返回结果集中只有id，u.id会无法映射，所以column必须为id 为方便理解，最好起别名-->
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+<!--        javaType是指定属性的类型，集合泛型用ofType-->
+        <collection property="books" ofType="com.teen.review.Bean.tBook" >
+            <result property="name" column="name"/>
+        </collection>
+    </resultMap>
+
+
+
+</mapper>

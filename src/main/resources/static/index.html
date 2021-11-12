@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+
+    <script>
+        //获取session  获取你麻痹！session是服务器对象，前端获取个der！！！！！！！
+        /*function getMsg()
+        {
+            document.getElementById("msg").innerHTML =  session.getAttribute("msg");
+        }
+
+        setInterval("getMsg()", 1000);*/
+        function AJAXtest(){
+
+            var xmlHttpRequest = new XMLHttpRequest();
+            xmlHttpRequest.open("GET","/reHP?username=1234",false);
+            //当AJAX状态改变时，获取响应并更改内容
+            xmlHttpRequest.onreadystatechange=function(){
+                if (xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+                    document.getElementById("hhh").innerHTML=xmlHttpRequest.responseText;
+            }
+
+            xmlHttpRequest.send();
+
+
+        }
+        //通过AJAX来获取服务端的msg
+        function getMsg(){
+
+            var xmlHttpRequest = new XMLHttpRequest();
+            xmlHttpRequest.open("GET","/logIn",true);
+            //当AJAX状态改变时，获取响应并更改内容
+            xmlHttpRequest.onreadystatechange=function(){
+                if (xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+                    document.getElementById("msg").innerHTML = xmlHttpRequest.responseText;
+            }
+
+            xmlHttpRequest.send();
+
+        }
+
+        //页面一加载便获取信息
+        getMsg();
+
+    </script>
+</head>
+<body>
+这是首页
+<br>
+-------------------------------<br>
+<!--你必须使用模板引擎。市面上的模板引擎：Thymeleaf -->
+<!--否则必须将html放在static文件夹下-->
+  <form action="/test001/user" method="get">
+    <input name="name" value="张三">
+    <br>
+    get方法<input type="submit">
+  </form>
+
+<!--这里用来测试spring风格跳转页面-->
+  <form action="/test001/user" method="post">
+      <input name="name" value="张三">
+      <br>
+<!--      post方法<input type="submit">-->
+      测试spring风格跳转页面<input type="submit">
+  </form>
+<br>
+-------------------------------<br>
+<form action="/player2" method="post">
+    名字<input name="username" value="teen">  <br>
+    攻击力<input name="attack" value="1223">   <br>
+    血量<input name="HP" value="124563">  <br>
+    post方法返回RequestBody<input type="submit">
+</form>
+<br>
+-------------------------------<br>
+<button onclick="AJAXtest()">发送AJAX请求:{"username",1234}</button><br>
+<p id="hhh">这里回显响应</p>
+<br>
+-------------------------------<br>
+
+登录
+<form method="post" action="/logUser">
+    账号<input name="username" value="8090273"><br>
+    密码<input type="password" name="password" value="123456"><br>
+    登录<input type="submit">
+</form><br>
+----------------------------------<br>
+<!--不用手动发了-->
+<!--<button onclick="getMsg()">接收AJAX请求</button><br>-->
+<p id="msg">这里是服务器返回信息</p>
+----------------------------------<br>
+<a href="/register.html">点我注册！</a><br>
+----------------------------------<br>
+<a href="/book.html">图书</a><br>
+</body>
+</html>

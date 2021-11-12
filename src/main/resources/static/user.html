@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+
+    <script>
+        function headerImgName(){
+            var xmlHttpRequest = new XMLHttpRequest();
+            xmlHttpRequest.open("GET","/headerImg",true);
+            xmlHttpRequest.onreadystatechange = function (){
+                if (xmlHttpRequest.readyState==4 && xmlHttpRequest.status==200){
+                    var headerImgName =  xmlHttpRequest.responseText;
+                    if (headerImgName == "-1" || headerImgName == null)
+                    {
+                        headerImgName = "default.jpg";
+                    }
+                    document.getElementById("headerImg").src ="img/" + headerImgName;
+                }
+            }
+            xmlHttpRequest.send();
+        }
+        headerImgName();
+
+    </script>
+</head>
+<body>
+这是你的主页
+<br>
+----------------------------------<br>
+上传头像
+<form action="/upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="photo">
+    <br>
+    点击上传头像<input type="submit">
+</form><br>
+-----------------------------------<br>
+你的头像:<br>
+<div>
+    <img src="" id="headerImg">
+</div>
+</body>
+</html>

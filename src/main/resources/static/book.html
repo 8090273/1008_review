@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书</title>
+  <script src="js/jquery-3.6.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <table >
+    <tr>
+      <td>id</td>
+      <td>名字</td>
+      <td>作者</td>
+      <td>价格</td>
+      <td>销量</td>
+      <td>库存</td>
+    </tr>
+    <tr v-for="book in books">
+      <td>{{book.id}}</td>
+      <td>{{book.name}}</td>
+      <td>{{book.author}}</td>
+      <td>{{book.price}}</td>
+      <td>{{book.sales}}</td>
+      <td>{{book.stock}}</td>
+    </tr>
+    <tbody id="bookTable">
+
+    </tbody>
+  </table>
+  <p>
+    <span>第{{page}}页</span>
+    <span>共{{count/5}}页</span>
+    <span >共{{count}}条记录</span>
+  </p>
+  <button @click="select">下一页</button>
+</div>
+
+<!--将此页面改造成Vue实例-->
+<!--private long  id;
+    private String name;
+    private String author;
+    private double price;
+    private long sales;
+    private long stock;
+    private String imgPath;-->
+
+
+<script>
+
+  vm = new Vue({
+    el: "#app",
+    data:{
+      //等价于page：page （右边的page指向window.page)
+      page: 4,
+      count: null,
+      books: null,
+      bookPage: new FormData()
+    },
+     methods:{
+      select(){
+        this.page = this.page%4 + 1;
+        // this.bookPage.append("page",this.page);
+        this.bookPage.set('page',this.page);
+        //axios 发送表单类型必须携带FormData类型的数据
+        axios.post("/select",this.bookPage,
+          {
+            //axios默认发送json，@ResquesParam默认接收键值对 用request Body 返回Map就成功了
+            //修改headers配置
+            headers: {
+              'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
+            },
+          }
+        ).then((response)=>{
+          this.books = response.data
+        }).catch((error)=>{
+          console.log(error)
+        })
+
+        console.log(this.bookPage.get('page'))
+        //ajax 传给后端的值不带大括号
+        /*$.post({
+          url:"/select",  //请求地址
+          data:{"page":page},    //携带数据
+          success: (data)=>{    //回调函数，形参为响应体
+              console.log(this);
+              this.books = data
+          }
+        })*/
+      }
+     },
+    mounted(){
+      //注意！！这里必须使用箭头函数，使函数体内的this 指向 axios的this
+      axios.get('/selectCont').then((response)=>{
+        // $("#content").html("共" + response.data +"条记录");
+        this.count = response.data;
+        // $("#pageCont").html("共"+(response.data/5)+"页");
+      });
+
+      this.bookPage.append("page",this.page);
+    }
+  })
+
+
+  //原jquery写法
+  //初始函数 页面加载便执行
+  $(function (){
+    //得到总记录数
+    /*$.get({
+      url: "/selectCont",
+      success: function (data){
+        $("#content").html("共" + data +"条记录");
+        $("#pageCont").html("共"+(data/5)+"页");
+      }
+    })*/
+
+    //id为select的标签绑定单击事件
+    /*$("#select").click(function (){
+      page = page%4 +1;
+      //发送post请求的ajax请求
+      $.post({
+        url:"/select",  //请求地址
+        data:{"page":page},    //携带数据
+        success: function(data){    //回调函数，形参为响应体
+          //修改页数
+          $("#page").html("第"+page +"页");
+
+          //打印查询到的记录
+          var html = "";
+          for (let i = 0; i < data.length; i++) {
+            html += "<tr>" +
+                    "<td>" + data[i].id + "</td>" +
+                    "<td>" + data[i].name + "</td>" +
+                    "<td>" + data[i].author + "</td>" +
+                    "<td>" + data[i].price + "</td>" +
+                    "<td>" + data[i].sales + "</td>" +
+                    "<td>" + data[i].stock + "</td>" +
+                    "</tr>";
+          }
+          $("#bookTable").html(html);
+        }
+      })
+    })*/
+  })
+
+</script>
+</body>
+</html>
