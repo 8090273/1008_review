@@ -74,6 +74,7 @@ public class NewRestStyle {
         System.out.println("master主线改回去了");
         System.out.println("测试可不可以先改再push");
         System.out.println("这是拉取的测试-----看来可以，会有一个合并冲突的过程");
+        System.out.println("热修复分支第三次修改");
         return player02;
 
     }
