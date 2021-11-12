@@ -72,6 +72,7 @@ public class NewRestStyle {
         System.out.println(player02);
         System.out.println("热修复分支第二次无法修改");
         System.out.println("master主线改回去了");
+        System.out.println("这是拉取的测试");
         return player02;
 
     }
